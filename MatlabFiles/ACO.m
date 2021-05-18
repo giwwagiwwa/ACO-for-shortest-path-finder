@@ -1,19 +1,22 @@
 clear
 close all
-%% Preparación del problema
+
+%% Pre steps
 %Colores inicio final
 color_inici = [230,0,0]; %rgb of initial dot colour (red)
 color_final = [0,0,230]; %rgb of final dot colour (blue)
 %Nombre del mapa a cargar:
-mapa = 'mapa2.png'; %map image name with extension (from mapas folder)
+mapa = 'mapagrande.png'; %map image name with extension (from mapas folder)
+%Bitmap Restriction:
+    %Start node lower left box (first point)
+    %End node upper right box (last point)
+
+%% Graph generation:
 %Obtenemos los puntos a partir del mapa de imagen y la matriz moves
 [ptot,moves] = img2xy(color_inici,color_final,mapa);
 %ptot struct containts each x,y coord of each node and its type (tipo)
 %moves matrix contains the movements restriccion between nodes.
-%Restriction:
-    %Start node lower left box (first point)
-    %End node upper right box (last point)
-%% Generación del gráfico:
+
 %Vector X,Y de coordenadas de los nodos
 [graph] = crearGrafico(ptot,moves);
     %.n = Numero de nodos
@@ -28,11 +31,9 @@ figure
 subplot(1,3,1);
 dibujarGrafico(graph, moves);
 
-%% ACO algorithm ------------------------------------------------
-
 %% Initial parameters of ACO
 %Maximas iteraciones del algoritmo
-    maxiter = 100;
+    maxiter = 200;
 %Numero de ants
     antNo = 10;
 %Nivel de feromona inicial
@@ -45,15 +46,14 @@ dibujarGrafico(graph, moves);
 %corto mejor
     eta = 1./graph.edges;
 %Factor de evaporación:
-    rho = 0.25; % '%' que se evapora cada iteración
+    rho = 0.6; % '%' que se evapora cada iteración
 %Alfa y Beta
     alpha = 1;
     beta = 1;
     
-%% Main loop ACO
-%el mejor coste inicial (maximo), buscamos el mínimo coste.
-bestTour = [];
-bestFitness = inf;
+%% Main loop of ACO
+bestTour = []; %best tour done at iteration t
+bestFitness = inf; %best (lowest) distance between start-end node
 
 for t=1:maxiter
     %Create Ants

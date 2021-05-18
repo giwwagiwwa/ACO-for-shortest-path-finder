@@ -41,17 +41,22 @@ for i=1:antNo
        %Ruleta para seleccionar el movimiento.
        %Check de que almenos 1 nodo tiene P diferente de NaN
        if isnan(P)
+           %if there isn't any available node, the ant goes back until
+           %there is another available node to travel.
            nextNode = colonia.ant(i).path(end-(2*retroceder+1));
            retroceder = retroceder +1;
        else
+           %if there is at least 1 node available, we call the ruleta
+           %function to chose it based on the probability calculated
            nextNode = ruleta(P);
+           %reset the move back counter
            retroceder = 0;
        end
        %Si no hay ningun nodo disponible, se vuelve al anterior
        %Añadimos el nodo al path
        colonia.ant(i).path = [colonia.ant(i).path, nextNode];
        if nextNode == destinationNode
-           break
+           break %when we find the final node, the path is completed next ant starts its path
        end
    end
 end
