@@ -1,7 +1,7 @@
-function [puntos,moves] = img2xy(color_inici,color_final,ruta,img_name)
+function [puntos,moves] = img2xy(color_inici,color_final,img_name)
 %Transforma mapa de bits en puntos xy del mapa y matriz moves
 %Cargar la imagen en bmp
-rutaimg = strcat(ruta,img_name);
+rutaimg = strcat('./mapas/',img_name);
 %Leemos la imagen del archivo
 imagen_mapa = imread(rutaimg);
 % %Rotamos la imagen 180 para que en el for de check de bits empiece por
