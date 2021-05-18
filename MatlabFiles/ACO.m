@@ -2,17 +2,16 @@ clear
 close all
 %% Preparación del problema
 %Colores inicio final
-color_inici = [230,0,0];
-color_final = [0,0,230];
+color_inici = [230,0,0]; %rgb of initial dot colour (red)
+color_final = [0,0,230]; %rgb of final dot colour (blue)
 %Nombre del mapa a cargar:
-mapa = '';
-ruta = '';
+mapa = ''; %map image name with extension
+ruta = ''; %path to the folder of maps images
 %Obtenemos los puntos a partir del mapa de imagen y la matriz moves
 [ptot,moves] = img2xy(color_inici,color_final,ruta,mapa);
-%Restricción:
-    %Nodo inicio casilla inferior izquierda (primer punto)
-    %Nodo final casilla superior derecha (último punto)
-
+%Restriction:
+    %Start node lower left box (first point)
+    %End node upper right box (last point)
 %% Generación del gráfico:
 %Vector X,Y de coordenadas de los nodos
 [graph] = crearGrafico(ptot,moves);
