@@ -76,7 +76,7 @@ else
 end
 
 %% Generación de gráfico
-if mapselect < 4
+if mapselect < 4 || ~isempty(mapa)
     %Vector X,Y de coordenadas de los nodos
     [graph] = crearGrafico(ptot,moves);
 else %Ejemplo ciudades con cálculo de distancias a partir de latitud y lon
@@ -98,24 +98,24 @@ dibujarGrafico(graph, moves);
 
 %% Parametros iniciales del ACO (tunning)
 %Maximas iteraciones del algoritmo
-    maxIter = 70;
+    maxIter = 30;
 %Numero de hormigas
-    antNo = 7;
+    antNo = 10;
 %Nivel de feromona inicial
 %Se puede empezar des de ~0 también (Comienzo 100% aleatorio).
     tau0 = 10*1/( graph.n * mean( graph.edges(:) )); %Comienzo normalizado para las longitudes del gráfico
     %De este modo se distribuye el nivel de feromona razonablemente.
-    %tau0 = 0.1; %Comienzo con constante
+    %tau0 = 0.01; %Comienzo con constante
 %Matriz de feromonas de las aristas a partir del inicial
     tau = tau0 * ones(graph.n, graph.n);
 %Calcular eta (atractivo de cada camino) = la inversa de la longitud = más
 %corto mejor
     eta = 1./graph.edges;
 %Factor de evaporación:
-    rho = 0.5; % '%' que se evapora cada iteración --> 1 - rho = feromonas que se mantienen.
+    rho = 0.75; % '%' que se evapora cada iteración --> 1 - rho = feromonas que se mantienen.
 %Alfa y Beta
-    alpha = 1; %Control de la influencia de tau (niveles de feromona) al calcular las probabilidades
-    beta = 0.5;%Control de la influencia de eta (atractivo del camino) al calcular las probabilidades
+    alpha = 0.5; %Control de la influencia de tau (niveles de feromona) al calcular las probabilidades
+    beta = 1;%Control de la influencia de eta (atractivo del camino) al calcular las probabilidades
     
 %% Bucle del ACO
 bestPath = []; %Variable que almacena los nodos del mejor trayecto
@@ -189,7 +189,7 @@ for t=1:maxIter
 end
 %Mostramos los resultados en números de nodo si no se usa el ejemplo de las
 %ciudades
-if mapselect < 4
+if mapselect < 4 || ~isempty(mapa)
     outmsg = ['Camino más corto = ',num2str(colonia.queen.fitness),'. Encontrado a la iter nº ',num2str(iterFoundAbs),'. Best path:'];
     disp(outmsg);
     disp(bestPath);
