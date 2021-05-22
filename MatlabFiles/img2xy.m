@@ -1,21 +1,25 @@
 function [puntos,moves] = img2xy(color_inici,color_final,img_name)
-%Transforma mapa de bits en puntos xy del mapa y matriz moves
+%Función que transforma mapa de bits en puntos x y del mapa y matriz moves.
+
 %Cargar la imagen en bmp
 rutaimg = strcat('./mapas/',img_name);
 %Leemos la imagen del archivo
 imagen_mapa = imread(rutaimg);
+%-------------------------------------------------------------------------
 % %Rotamos la imagen 180 para que en el for de check de bits empiece por
 % %abajo
 % imagen_mapa = imrotate(imagen_mapa,180);
 % %Volteamos horizontalmente para que empiece de derecha a izquierda
 % imagen_mapa = imagen_mapa(:,end:-1:1,:);
+% DESCOMENTAR EN CASO NECESARIO!
+%--------------------------------------------------------------------------
 [altura,anchura,~] = size(imagen_mapa);
-%variables de posicion que luego se sustituyen
+%variables de posicion iniciales que luego se sustituyen
 x(1) = -1;
 y(1) = -1;
 %matriz moves que contiene las restricciones de desplazamiento entre nodos
 moves = zeros(altura*anchura,altura*anchura);
-%matriz que contiene los indices de los nodos, mismo tamaño que moves.
+%matriz que contiene los indices de los nodos.
 mat_numnodes = zeros(altura,anchura);
 %Indices a apuntar al final
 mat_indices = zeros(altura*anchura,4); %maximo se puede desplazar a 4 puntos al lado
@@ -30,17 +34,17 @@ end
 num_node = 1;
 %variable que señala si hemos descubierto un nuevo punto
 nuevopunto = 0;
-%extrear puntos del bitmap
+%extraer puntos del bitmap
 for i=altura:-1:1
     for j=1:anchura
         %comprovar si es inicio
         if (imagen_mapa(i,j,1) == color_inici(1)) & (imagen_mapa(i,j,2) == color_inici(2)) & (imagen_mapa(i,j,3) == color_inici(3))
             %si es igual es el nodo inicio:
             nuevopunto = 3;
-        %comprovamos si es nodo final
+        %comprobamos si es nodo final
         elseif (imagen_mapa(i,j,1) == color_final(1)) & (imagen_mapa(i,j,2) == color_final(2)) & (imagen_mapa(i,j,3) == color_final(3))
             nuevopunto = 2;
-        %sino comprovamos si son blancos (255,255,255) y rellenamos los
+        %sino comprobamos si son blancos (255,255,255) y rellenamos los
         %puntos x y
         elseif imagen_mapa(i,j,:) == [255,255,255]
             nuevopunto = 1;
@@ -98,7 +102,9 @@ for i=altura:-1:1
         puntos(num_node).x = j;
         puntos(num_node).y = i;
         puntos(num_node).tipo = nuevopunto;
+        %inc num node
         num_node = num_node + 1;
+        %reset point finder flag
         nuevopunto = 0;
     end
 end

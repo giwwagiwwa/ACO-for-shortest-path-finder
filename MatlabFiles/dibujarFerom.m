@@ -1,4 +1,6 @@
 function [] = dibujarFerom( tau, graph )
+%Función para representar los niveles de feromonas entre todos los puntos
+%del gráfico.
 
 %Para determinar los niveles de feromonas a dibujar, hay que conocer el
 %nivel mínimo y máximo presente en el gráfico.
@@ -24,20 +26,24 @@ for i=1:graph.n-1
         %Tambien hay que cambiar el tamaño de la línea en función de tau
         %de 1 a 11 en función de tau.
         %[Red, Green, Blue, Transparencia]
-        plot(X,Y, 'color', [0,0,1-tau_norm(i,j), tau_norm(i,j)], 'lineWidth',5*tau_norm(i,j)+1);
+        plot(X,Y, 'color', [0,0,1-tau_norm(i,j), tau_norm(i,j)], 'lineWidth',10.*tau_norm(i,j)+1);
     end
 end
     X = [graph.node(:).x];
     Y = [graph.node(:).y];
 for i=1:graph.n
-   if graph.node(i).tipo == 0
-        
+if graph.node(i).tipo == 0
+        plot(X(i),Y(i),'-s','MarkerSize',15,'MarkerEdgeColor','k','MarkerFaceColor','k');
+        text(X(i),Y(i),num2str(i),'Color','w','Fontsize',10,'VerticalAlignment','middle','HorizontalAlignment','center');
     elseif graph.node(i).tipo == 1
-        plot(X(i),Y(i),'-s','MarkerSize',10,'MarkerEdgeColor','k','MarkerFaceColor','r');
+        plot(X(i),Y(i),'-s','MarkerSize',15,'MarkerEdgeColor','k','MarkerFaceColor','g');
+        text(X(i),Y(i),num2str(i),'Fontsize',10,'VerticalAlignment','middle','HorizontalAlignment','center');
     elseif graph.node(i).tipo == 2
-        plot(X(i),Y(i),'-p','MarkerSize',10,'MarkerEdgeColor','k','MarkerFaceColor','b');
+        plot(X(i),Y(i),'-p','MarkerSize',15,'MarkerEdgeColor','k','MarkerFaceColor','b');
+        text(X(i),Y(i),num2str(i),'Fontsize',10,'VerticalAlignment','cap','HorizontalAlignment','center');
     elseif graph.node(i).tipo == 3
-        plot(X(i),Y(i),'-v','MarkerSize',10,'MarkerEdgeColor','k','MarkerFaceColor','r');
+        plot(X(i),Y(i),'-v','MarkerSize',15,'MarkerEdgeColor','k','MarkerFaceColor','r');
+        text(X(i),Y(i),num2str(i),'Fontsize',10,'VerticalAlignment','cap','HorizontalAlignment','center');
     end
 end
 

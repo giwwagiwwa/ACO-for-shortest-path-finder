@@ -1,4 +1,6 @@
 function [tau] = actualizarFerom(tau,colonia)
+%Ejecuta la actualización de niveles de feromona de los caminos que han
+%sido recorridos por hormigas a partir del coste del trayecto.
 
 %Calculamos el numero de nodos del path de cada hormiga.
 antNo = length(colonia.ant(:));
