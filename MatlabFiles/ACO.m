@@ -14,7 +14,7 @@ close all
         %Nodo final px superior derecho (último punto)
 %--------------------------------------------------------------------------
 %Si se usan mapas hechos de generaMapaNodes.m o de ciudades
-    mapselect = 4; 
+    mapselect = 3; 
     %(1 - Mapa pequeño,2 - Mapa mediano ,3 - Mapa real de hormigas,
     % 4 - Simulación por entorno de ciudades españolas)
 %--------------------------------------------------------------------------
@@ -45,9 +45,11 @@ if isempty(mapa)
             %hold on;
         end
         %Introducción de ciudad inicio y fin por el usuario
-        disp("Introduce los nombres de las ciudades del excel con comillas (p.ej 'Barcelona')");
-        ciu_ini = input('Ciudad inicio: ');
-        ciu_fin = input('Ciudad final: ');
+        ciu_ini = 'Barcelona'
+        ciu_fin = 'Granada'
+%         disp("Introduce los nombres de las ciudades del excel con comillas (p.ej 'Barcelona')");
+%         ciu_ini = input('Ciudad inicio: ');
+%         ciu_fin = input('Ciudad final: ');
         %close
         [X,Y,moves,initial_node,destination_node] = generaMapaCiutats(ciudades,ciu_ini,ciu_fin);
         clearvars col_end col_start raw
@@ -98,24 +100,24 @@ dibujarGrafico(graph, moves);
 
 %% Parametros iniciales del ACO (tunning)
 %Maximas iteraciones del algoritmo
-    maxIter = 30;
+    maxIter = 100;
 %Numero de hormigas
-    antNo = 10;
+    antNo = 6;
 %Nivel de feromona inicial
 %Se puede empezar des de ~0 también (Comienzo 100% aleatorio).
-    tau0 = 10*1/( graph.n * mean( graph.edges(:) )); %Comienzo normalizado para las longitudes del gráfico
+    %tau0 = 10*1/( graph.n * mean( graph.edges(:) )); %Comienzo normalizado para las longitudes del gráfico
     %De este modo se distribuye el nivel de feromona razonablemente.
-    %tau0 = 0.01; %Comienzo con constante
+    tau0 = 0.01; %Comienzo con constante
 %Matriz de feromonas de las aristas a partir del inicial
     tau = tau0 * ones(graph.n, graph.n);
 %Calcular eta (atractivo de cada camino) = la inversa de la longitud = más
 %corto mejor
     eta = 1./graph.edges;
 %Factor de evaporación:
-    rho = 0.75; % '%' que se evapora cada iteración --> 1 - rho = feromonas que se mantienen.
+    rho = 0.1; % '%' que se evapora cada iteración --> 1 - rho = feromonas que se mantienen.
 %Alfa y Beta
-    alpha = 0.5; %Control de la influencia de tau (niveles de feromona) al calcular las probabilidades
-    beta = 1;%Control de la influencia de eta (atractivo del camino) al calcular las probabilidades
+    alpha = 0.8; %Control de la influencia de tau (niveles de feromona) al calcular las probabilidades
+    beta = 0.8;%Control de la influencia de eta (atractivo del camino) al calcular las probabilidades
     
 %% Bucle del ACO
 bestPath = []; %Variable que almacena los nodos del mejor trayecto
@@ -181,9 +183,9 @@ for t=1:maxIter
 
     %Dibujar los niveles de feromona (consume muchos recursos del pc para
     %gráficos con más de ~80 puntos).
-    subplot(1,3,3);
-    cla
-    dibujarFerom( tau, graph );
+%     subplot(1,3,3);
+%     cla
+%     dibujarFerom( tau, graph );
 
     drawnow
 end

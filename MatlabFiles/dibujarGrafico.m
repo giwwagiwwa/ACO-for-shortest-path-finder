@@ -47,16 +47,24 @@ Y = [graph.node(:).y];
 for i = 1:graph.n
     if graph.node(i).tipo == 0
         plot(X(i),Y(i),'-s','MarkerSize',15,'MarkerEdgeColor','k','MarkerFaceColor','k');
-        text(X(i),Y(i),num2str(i),'Color','w','Fontsize',10,'VerticalAlignment','middle','HorizontalAlignment','center');
+        if graph.n < 300
+            text(X(i),Y(i),num2str(i),'Color','w','Fontsize',10,'VerticalAlignment','middle','HorizontalAlignment','center');
+        end
     elseif graph.node(i).tipo == 1
         plot(X(i),Y(i),'-s','MarkerSize',15,'MarkerEdgeColor','k','MarkerFaceColor','g');
-        text(X(i),Y(i),num2str(i),'Fontsize',10,'VerticalAlignment','middle','HorizontalAlignment','center');
+        if graph.n < 300
+            text(X(i),Y(i),num2str(i),'Fontsize',10,'VerticalAlignment','middle','HorizontalAlignment','center');
+        end
     elseif graph.node(i).tipo == 2
         plot(X(i),Y(i),'-p','MarkerSize',15,'MarkerEdgeColor','k','MarkerFaceColor','b');
-        text(X(i),Y(i),num2str(i),'Fontsize',10,'VerticalAlignment','cap','HorizontalAlignment','center');
+        if graph.n < 300
+            text(X(i),Y(i),num2str(i),'Fontsize',10,'VerticalAlignment','cap','HorizontalAlignment','center');
+        end
     elseif graph.node(i).tipo == 3
         plot(X(i),Y(i),'-v','MarkerSize',15,'MarkerEdgeColor','k','MarkerFaceColor','r');
-        text(X(i),Y(i),num2str(i),'Fontsize',10,'VerticalAlignment','cap','HorizontalAlignment','center');
+        if graph.n < 300
+            text(X(i),Y(i),num2str(i),'Fontsize',10,'VerticalAlignment','cap','HorizontalAlignment','center');
+        end
     end
     if isequal(graph.ciu,'si')
         text(X(i),Y(i),graph.node(i).ciu,'Fontsize',9,'VerticalAlignment','cap','HorizontalAlignment','center');
